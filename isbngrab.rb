@@ -34,7 +34,7 @@ File.foreach(filename).with_index do |line, line_no|
   if (valid_isbn?(isbn))
     valid_isbns << isbn
   else
-    puts("Line #{line_no}:  Invalid ISBN - #{line.strip}") unless valid_isbn?(isbn)
+    puts("Line #{line_no}:  Invalid ISBN - #{line.strip}")
   end
 end
 
@@ -80,7 +80,7 @@ valid_isbns.each do |candidate_isbn|
   end
 end
 
-# Going to spec arrays as pipe separated lists when emitting CSV
+# Going to spec arrays as pipe separated lists when emitting CSV, to avoid comma poisoning
 
 require 'csv'
 
