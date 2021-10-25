@@ -70,8 +70,12 @@ valid_isbns.each do |candidate_isbn|
     # others at the same level. 
 
     volumes_raw = JSON.parse(res.body)['items']
-    volumes_table[candidate_isbn] = volumes_raw.map do |vol|
-      vol['volumeInfo']
+    if (volumes_raw.nil?)
+      puts("ISBN #{candidate_isbn} has no information about the volume")
+    else
+      volumes_table[candidate_isbn] = volumes_raw.map do |vol|
+        vol['volumeInfo']
+      end
     end
   end
 end
@@ -89,7 +93,11 @@ CSV.open('output.csv', 'w') do |csv|
     # Shortcut. Take the details of the first book only (index == 0)
     row << value[0]['title']
     row << value[0]['subtitle']
-    row << value[0]['authors'].join('|')
+    if (value[0]['authors'].nil?)
+      row << ''
+    else
+      row << value[0]['authors'].join('|')
+    end
     row << value[0]['publisher']
     row << value[0]['publishedDate']
     if (value[0]['categories'].nil?)
